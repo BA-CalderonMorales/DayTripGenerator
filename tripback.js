@@ -22,27 +22,123 @@ let theTransportationFlag = true;
 let theEntertainmentFlag = true;
 /* #endregion */
 
+/* #region Random number generator to help with prompting things to the user. */
+let randomOne = randomNumber(destination);
+let randomTwo = randomNumber(restaurant);
+let randomThree = randomNumber(transportation);
+let randomFour = randomNumber(entertainment);
+/* #endregion */
+
 while (theFlag) {
 
-    let theChosenDestination = prompt("Choose a destination: Nebraska, Wyoming, Hawaii, Alaska");
-    chooseADestination(theChosenDestination);
-    console.log(userDestination);
+    /* #region With Random Selection */
 
-    let theChosenRestaurant = prompt("Choose a restaurant: IHop, Taco Bell, McDonalds, Texas Roadhouse");
-    chooseARestaurant(theChosenRestaurant);
-    console.log(userRestaurant);
+    let randomDestination = destination[randomOne];
+    console.log(randomDestination);
+    let theChosenDestination = prompt("Do you like this destination? Type 'yes' or 'no'.");
+    userDestination = chooseADestination(theChosenDestination, randomDestination);
 
-    let theChosenTransportation = prompt("Choose a form of transportation: Car, Van, SUV, Motorcycle");
-    chooseATranspo(theChosenTransportation);
-    console.log(userTransportation);
+    let randomRestaurant = restaurant[randomTwo];
+    console.log(randomRestaurant);
+    let theChosenRestaurant = prompt("Do you like this restaurant? Type 'yes' or 'no'.");
+    userRestaurant = chooseARestaurant(theChosenRestaurant, randomRestaurant);
 
-    let theChosenEntertainment = prompt("Choose the preferred entertainment: Salsa lessons, Scuba Diving, Formula 1 Racing, Para-gliding");
-    chooseAEntertainment(theChosenEntertainment);
-    console.log(userEntertainment);
+    let randomTransportation = transportation[randomThree];
+    console.log(randomTransportation);
+    let theChosenTransportation = prompt("Do you like this form of transportation? Type 'yes' or 'no'.");
+    userTransportation = chooseATranspo(theChosenTransportation, randomTransportation);
+
+    let randomEntertainment = entertainment[randomFour];
+    console.log(randomEntertainment);
+    let theChosenEntertainment = prompt("Do you like this form of entertainment? Type 'yes' or 'no'.");
+    userEntertainment = chooseAEntertainment(theChosenEntertainment, randomEntertainment);
+
+    /* #endregion */
 
     theFlag = false;
 }
 
+/* #region With Random Selection, functions (Optional replay prompt)*/
+
+function chooseADestination(userDestinationInput, randomlyGeneratedDestination) {
+    while (theDestinationFlag) {
+        if (userDestinationInput === 'yes') {
+            userDestination = randomlyGeneratedDestination;
+            theDestinationFlag = false;
+        }
+        else {
+            anotherRandomNumber = randomNumber(destination);
+            let anotherDestination = destination[anotherRandomNumber];
+            console.log("What about " + anotherDestination);
+            let replayPrompt = prompt("Do you like this destination? Type 'yes' or 'no'.")
+            chooseADestination(replayPrompt, anotherDestination);
+        }
+    }
+    return userDestination;
+}
+
+function chooseARestaurant(userRestaurantInput, randomlyGeneratedRestaurant) {
+    while (theRestaurantFlag) {
+        if (userRestaurantInput === 'yes') {
+            userRestaurant = randomlyGeneratedRestaurant;
+            theRestaurantFlag = false;
+        }
+        else {
+            anotherRandomNumber = randomNumber(restaurant);
+            let anotherRestaurant = restaurant[anotherRandomNumber];
+            console.log("What about " + anotherRestaurant);
+            let replayPrompt = prompt("Do you like this restaurant? Type 'yes' or 'no'.");
+            chooseARestaurant(replayPrompt, anotherRestaurant);
+        }
+    }
+    return userRestaurant;
+}
+
+function chooseATranspo(userTransportationInput, randomlyGeneratedTranspo) {
+    while (theTransportationFlag) {
+        if (userTransportationInput === 'yes') {
+            userTransportation = randomlyGeneratedTranspo;
+            theTransportationFlag = false;
+        }
+        else {
+            anotherRandomNumber = randomNumber(transportation);
+            let anotherTranspo = transportation[anotherRandomNumber];
+            console.log("What about " + anotherTranspo);
+            let replayPrompt = prompt("Do you like this form of transportation? Type 'yes' or 'no'.");
+            chooseATranspo(replayPrompt, anotherTranspo);
+        }
+    }
+    return userTransportation;
+}
+
+function chooseAEntertainment(userEntertainmentInput, randomlyGeneratedEntertainment) {
+    while (theEntertainmentFlag) {
+        if (userEntertainmentInput === 'yes') {
+            userEntertainment = randomlyGeneratedEntertainment;
+            theEntertainmentFlag = false;
+        }
+        else {
+            anotherRandomNumber = randomNumber(entertainment);
+            let anotherEntertainment = entertainment[anotherRandomNumber];
+            console.log("What about " + anotherEntertainment);
+            let replayPrompt = prompt("Do you like this form of entertainment? Type 'yes' or 'no'.");
+            chooseAEntertainment(replayPrompt, anotherEntertainment);
+        }
+    }
+    return userEntertainment;
+}
+
+/* #endregion */
+
+/* #region Random number generator to help with prompting things to the user. */
+
+function randomNumber(theArray) {
+    let theRandomNumber = Math.floor(Math.random() * theArray.length);
+    return theRandomNumber;
+}
+/* #endregion */
+
+/* #region Asks users if they are sure about all their selections */
 let didUserLikeEverything = prompt("Did you like everything you chose? Please type enter 'yes' or 'no'.");
 let areYouSure = true;
 let theCurrentChange;
@@ -54,65 +150,12 @@ while (areYouSure) {
             areYouSure = false;
             break;
         case "no":
-            console.log("Sorry!");
-            theCurrentChange = prompt("What did you want to change? Please type any of the following: Destination, Restaurant, Transportation, or Entertainment");
-            let areYouSure = someChange(theCurrentChange);
+            console.log("Sorry! Can't turn back now! >:D");
+            areYouSure = false;
             break;
         default:
             console.log("That is not a valid input");
             break;
     }
 }
-
-function chooseADestination(userDestinationInput) {
-    while (theDestinationFlag) {
-        for (let i = 0; i < destination.length; i++) {
-            if (userDestinationInput === destination[i]) {
-                userDestination = destination[i];
-                theDestinationFlag = false;
-            }
-        }
-    }
-    return userDestination;
-}
-
-function chooseARestaurant(userRestaurantInput) {
-    while (theRestaurantFlag) {
-        for (let i = 0; i < restaurant.length; i++) {
-            if (userRestaurantInput === restaurant[i]) {
-                userRestaurant = restaurant[i];
-                theRestaurantFlag = false;
-            }
-        }
-    }
-    return userRestaurant;
-}
-
-function chooseATranspo(userTransportationInput) {
-    while (theTransportationFlag) {
-        for (let i = 0; i < transportation.length; i++) {
-            if (userTransportationInput === transportation[i]) {
-                userTransportation = transportation[i];
-                theTransportationFlag = false;
-            }
-        }
-    }
-    return userTransportation;
-}
-
-function chooseAEntertainment(userEntertainmentInput) {
-    while (theEntertainmentFlag) {
-        for (let i = 0; i < entertainment.length; i++) {
-            if (userEntertainmentInput === entertainment[i]) {
-                userEntertainment = entertainment[i];
-                theEntertainmentFlag = false;
-            }
-        }
-    }
-    return userEntertainment;
-}
-
-function someChange(change) {
-    console.log(change);
-    areYouSure = false;
-}
+/* #endregion */
